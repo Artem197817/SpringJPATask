@@ -26,22 +26,10 @@ public class TaskService {
     public List<Task> getTasksByStatus(TaskStatus status) {
         return taskRepository.findTaskByStatus(status);
     }
-    public Task findById (Long id){
-        return taskRepository.findById(id).orElse(null);
-    }
 
-    /**
-     * Логичнее
-     * Cюда  передавать либо уже задачу с измененным статусом
-     * либо идентификатор и статус.
-     */
     public Task updateTaskStatus(Long id, Task task) {
-        Task taskUpdate = findById(id);
-        if (taskUpdate != null){
-            taskUpdate.setStatus(task.getStatus());
-            taskRepository.save(taskUpdate);
-            return taskUpdate;
-        }
+        task.setId(id);
+        taskRepository.save(task);
         return task;
     }
 
